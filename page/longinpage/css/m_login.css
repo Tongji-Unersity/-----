@@ -9,10 +9,11 @@
 
 
  body {
-    background:#daeaf8;
+
     text-align: center;
     color: #fff;
 	font-family:Microsoft YaHei,Segoe UI,Tahoma,Arial,Verdana,sans-serif;
+	 background-image: url(../images/8.jpg);
     
 }
 
