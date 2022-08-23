@@ -25,35 +25,6 @@
                 <div class="reg-hd">账户信息</div>
                 <div class="reg-bd">
                     <ul class="reg-list">
-                        <!-- 用户名 -->
-                        <li>
-                            <div class="label">
-                                <span class="required">*</span>
-                                用 户 名：
-                            </div>
-                            <div class="r-txt">
-                                <input class="inptxt" id="userName" type="text" maxlength="20" placeholder="用户名设置成功后不可修改" maxlength="30" name="user_ID" title="请输入您的用户名，注意：用户名设置成功后不可修改"/>
-                            </div>
-                            <div class="tips">
-                                6-20位字母、数字或“_”,字母开头
-                            </div>
-                        </li>
-                        <label for="userName" class="error" id="userNameLenErr">
-                            <img src="images\icon_wrong.png" alt="error">
-                            用户名长度不能少于6个字符！
-                        </label>
-                        <label for="userName" class="error" id="userNameNumErr">
-                            <img src="images\icon_wrong.png" alt="error">
-                            该用户名已经占用，请重新选择用户名！
-                        </label>
-                        <label for="userName" class="error" id="userNameBlankErr">
-                            <img src="images\icon_wrong.png" alt="error">
-                            请输入用户名！
-                        </label>
-                        <label for="userName" class="error" id="userNameFormErr">
-                            <img src="images\icon_wrong.png" alt="error">
-                            用户名只能由字母、数字和_组成,须以字母开头！
-                        </label>
                         <!-- 性别 -->
                         <li>
                             <div class="label">
@@ -148,7 +119,7 @@
                         </li>
                         <label for="userRealName" class="error" id="userRealNameLenErr">
                             <img src="images\icon_wrong.png" alt="error">
-                            允许输入的字符串在3-30个字符之间！
+                            格式错误，允许输入的字符串在2-30个字符之间！
                         </label>
                         <label for="userRealName" class="error" id="userRealNameBlankErr">
                             <img src="images\icon_wrong.png" alt="error">
@@ -207,6 +178,13 @@
                             <img src="images\icon_wrong.png" alt="error">
                             请输入您的手机号码！
                         </label>
+                        <!-- 地址 -->
+                        <li>
+                            <div class="label">地    址：</div>
+                            <div class="r-txt">
+                                <input class="inptxt" type="text" placeholder="请正确填写地址" id="address" autocomplete="off" name="user_address" title="请正确填写地址"/>
+                            </div>
+                        </li>
                         <!-- 协议 -->
                         <li>
                             <div class="label">&nbsp;</div>
@@ -226,9 +204,8 @@
                         </label>
                     </ul>
                 </div>
-                
                 <div class="lay-btn" style="position:relative">
-                    <input type="submit" value="注册">
+                    <input type="submit" value="注册" id="regist">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="reset" value="重置" id="reset">
                 </div>
@@ -241,4 +218,5 @@
     <br>
 </body>
 <script src="register.js"></script>
+<script src="js\jquery-3.5.1\jquery-3.5.1.min.js"></script>
 </html>
