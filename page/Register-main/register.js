@@ -1,7 +1,5 @@
 //获取注册表单
-var registForm = document.querySelector('#registForm');                
-//获取用户名
-var userNameInp = document.querySelector('#userName');                   
+var registForm = document.querySelector('#registForm');   
 //获取性别选项状态（男）
 var manInp = document.querySelector('#man');                             
 //获取性别选项状态（女）
@@ -18,22 +16,16 @@ var cardCodeInp = document.querySelector('#cardCode');
 var emailInp = document.querySelector('#email');      
 //获取手机号码               
 var mobileNoInp = document.querySelector('#mobileNo');   
+//获取地址
+var addressInp = document.querySelector('#address');      
 //获取协议状态               
-var checkAgreeInp = document.querySelector('#checkAgree');      
+var checkAgreeInp = document.querySelector('#checkAgree'); 
+//注册按钮
+var registBtn = document.querySelector('#regist');
 //重置按钮
 var resetBtn = document.querySelector('#reset');  
 //错误信息
 var error = document.querySelectorAll('.error');  
-
-//错误信息
-//用户名长度错误信息
-var userNameLenErr = document.querySelector('#userNameLenErr');
-//用户名已存在错误信息
-var userNameNumErr = document.querySelector('#userNameNumErr');
-//用户名空白错误信息
-var userNameBlankErr = document.querySelector('#userNameBlankErr');
-//用户名格式错误信息
-var userNameFormErr = document.querySelector('#userNameFormErr');
 
 //性别选项空白错误信息
 var genderBlankErr = document.querySelector('#genderBlankErr');
@@ -79,33 +71,6 @@ var mobileNoBlankErr = document.querySelector('#mobileNoBlankErr');
 
 //协议未勾选错误信息
 var checkAgreeNoErr = document.querySelector('#checkAgreeNoErr');
-
-//检查用户名
-function checkUserName(){
-    userNameInp.onblur = function(){
-        var userName = userNameInp.value;//获取用户输入的用户名的值
-        var exp=/^[A-Za-z][\w]{5,19}$/;//正则表达式：6-20位字母、数字或“_”,字母开头
-    
-        //当按键时，隐藏错误信息
-        userNameInp.onkeyup =function(){
-            userNameLenErr.style.display = 'none';
-            userNameNumErr.style.display = 'none';
-            userNameBlankErr.style.display = 'none';
-            userNameFormErr.style.display = 'none';
-        }
-    
-        //当输入框失去焦点时，如有错误，则显示错误信息
-        if(!userName){
-            userNameBlankErr.style.display = 'block';
-        }
-        else if(userName.length<6){
-            userNameLenErr.style.display = 'block';
-        }
-        else if(!exp.test(userName))
-            userNameFormErr.style.display = 'block';
-    }
-}
-checkUserName();
 
 //检查登录密码
 function checkPassWord(){
@@ -188,6 +153,8 @@ checkConfirmPassWord();
 function checkUserRealName(){
     userRealNameInp.onblur = function(){
         var userRealName = userRealNameInp.value;//获取用户输入的用户名的值
+        //var exp= /^(([a-zA-Z+\.?\·?a-zA-Z+]{2,30}$)|([\u4e00-\u9fa5+\·?\u4e00-\u9fa5+]{2,30}$))/;//正则表达式
+        var exp=/^[\u4e00-\u9fa5]{2,6}$/;//中文名
     
         //当按键时，隐藏错误信息
         userRealNameInp.onkeyup =function(){
@@ -199,7 +166,7 @@ function checkUserRealName(){
         if(!userRealName){
             userRealNameBlankErr.style.display = 'block';
         }
-        else if(userRealName.length<3){
+        else if(userRealName.length<2||!exp.test(userRealName)){
             userRealNameLenErr.style.display = 'block';
         }
     }
@@ -270,22 +237,9 @@ function checkMobileNo(){
 }
 checkMobileNo();
 
-//点击重置按钮，清除所有错误信息
-resetBtn.onclick = function(){
-    for(var i=0 ; i<error.length ; i++)
-        error[i].style.display = 'none';
-    rankA.style.display = 'block';
-    rankB.style.display = 'none';
-    rankC.style.display = 'none';
-}
-
-//给form标签绑定一个表单提交事件
-registForm.onsubmit = function(e){
-    //阻止表单的默认提交行为
-    e.preventDefault()
-    
-    //检查性别及协议选项
-    function checkChoice(){
+//检查性别及协议选项
+function checkChoice(){
+    registBtn.onblur = function(){
         genderBlankErr.style.display = 'none';
         checkAgreeNoErr.style.display = 'none';
 
@@ -312,28 +266,70 @@ registForm.onsubmit = function(e){
             checkAgreeNoErr.style.display = 'block';
         }
     }
-    checkChoice();
+}
+checkChoice();
 
-    //拿到用户填写的信息
-    var userName = userNameInp.value;
-    var passWord = passWordInp.value;
-    var userRealName = userRealNameInp.value;
-    var cardCode = cardCodeInp.value;
-    var email = emailInp.value;
-    var mobileNo = mobileNoInp.value;
-    var man = manInp.checked;
-    var woman = womanInp.checked;
-    var agree = checkAgreeInp.checked;
+//点击重置按钮，清除所有错误信息
+resetBtn.onclick = function(){
+    for(var i=0 ; i<error.length ; i++)
+        error[i].style.display = 'none';
+    rankA.style.display = 'block';
+    rankB.style.display = 'none';
+    rankC.style.display = 'none';
+}
 
-    if((!man&&!woman)||!agree||!userName||!passWord||!userRealName||!cardCode||!mobileNo){
+//给form标签绑定一个表单提交事件
+registForm.onsubmit = function(e){
+    //阻止表单的默认提交行为
+    e.preventDefault()
+    if((!manInp.checked&&!womanInp.checked)||!checkAgreeInp.checked||!passWordInp.value||!userRealNameInp.value||!cardCodeInp.value||!mobileNoInp.value){
         alert('请完善资料！(标记“*”的选项必填)');
         return false;
     }
-
-    var gender;
+    
+/*     var data = $("#registForm").serialize();
+    console.log(data);   */
+    //获取值
+    var UserPWD = passWordInp.value;
+    var UserRName = userRealNameInp.value;
+    var UserPID = cardCodeInp.value;
+    var UserEmail = emailInp.value;
+    var UserPhone = mobileNoInp.value;
+    var UserAddr = addressInp.value;
+    var UserGender;
     if(manInp.checked)
-        gender = '男';
+        UserGender = '1';
     else
-        gender = '女'
-    console.log('user_ID=' + userName + '&user_password=' + passWord + '&user_gender' + gender + '&user_real_name=' + userRealName + '&user_person_ID=' + cardCode + '&user_phone_number=' + mobileNo + '&user_email' + email);
+        UserGender = '0' 
+
+    $.ajax({
+        //提交类型
+        type: "post",
+        //接收数据的地址
+        url: "",
+        //提交的数据
+        data: { "UserPWD":UserPWD,"UserPhone":UserPhone,"UserEmail":UserEmail,"UserRName":UserRName,"UserGender":UserGender,"UserAddr":UserAddr,"UserPID":UserPID},
+        //回调函数（成功之后的操作）
+        success:function (data) {           
+            alert(data.message)
+        },
+        //失败之后的操作
+        error: function(){
+            alert("注册失败！");
+        }
+    });
+
+/*     $.ajax({
+        url: '',//接收数据后端路径
+        type: 'post',//提交方式
+        dataType: 'json',//传递数据类型
+        data: $("#registForm").serialize(),
+        success: function (data) {
+            // 参数为json类型的对象
+            alert(data.message)
+        },
+        error: function () {
+            alert("注册失败！");
+        }
+    }); */
 }
