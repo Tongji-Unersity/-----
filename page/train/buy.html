@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>buy</title>
+    <script src="jquery-3.5.1/jquery-3.5.1.min.js"></script>
 </head>
 <body>
     <div style="line-height: 50px;font-size: 20px;height: 50px;width: 1600px; color: rgb(255, 255, 255);background-color: rgb(97, 130, 240);">
@@ -22,7 +23,7 @@
             <select name="dated">
             </select>
 
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button style="width: 100px">查询</button>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button style="width: 100px" onclick="huizhi()">查询</button>
         <div style="position:absolute;top:25px;left:1110px">
         类型：<input type="radio" name="tyy" checked value="普通">普通
         <p>&emsp;&emsp;&emsp;<input type="radio" name="tyy" value="学生票">学生票</p></div>
@@ -144,16 +145,36 @@
         }
     </script>
     <script>
-     //   function huizhi(){
+    function huizhi(){
+        $.ajax({
+                type:"post",
+                url:"./hh",
+                data:{"start":document.getElementById("bef3").value,"end":document.getElementById("bef4").value,"year":document.getElementsByName("date")[0].value,"month":document.getElementsByName("datem")[0].value, "day":document.getElementsByName("dated")[0].value},
+                success: function(result){
             var ii=0;
             var chepiao=document.getElementById("chepiao");
-            var ur=encodeURI("pay.html?"+"北京="+"上海="+"7:03="+"9:30="+"G0000="+document.getElementsByName("date")[0].options[0].innerHTML
-            +"-"+document.getElementsByName("datem")[0].options[0].innerHTML+"-"+document.getElementsByName("dated")[0].options[0].innerHTML);
+           // var ur=encodeURI("pay.html?"+"北京="+"上海="+"7:03="+"9:30="+"G0000="+document.getElementsByName("date")[0].options[0].innerHTML
+           // +"-"+document.getElementsByName("datem")[0].options[0].innerHTML+"-"+document.getElementsByName("dated")[0].options[0].innerHTML);
+            
+            
             for(ii=0;ii<1;ii++){
+             //   chepiao.innerHTML+="<a style='text-decoration:none' href='"+ur+"'><div style='line-height: 1px;height: 50px; width: 1600px; border: 1px solid rgb(121, 173, 245);background-color: floralwhite;'>" +
+             //   "<p>&emsp;</p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;G0000&emsp;&emsp;&emsp;&emsp;北京-上海&emsp;&emsp;&emsp;&emsp;7:03-9:30&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座</div></a>"
+                
+             
+                var ur=encodeURI("pay.html?"+document.getElementById("bef3").value+"="+document.getElementById("bef4").value+"="+result.stat[ii]+"="+result.endt[ii]+"="+result.ccc[ii]+"="+document.getElementsByName("date")[0].options[0].innerHTML
+                +"-"+document.getElementsByName("datem")[0].options[0].innerHTML+"-"+document.getElementsByName("dated")[0].options[0].innerHTML);
                 chepiao.innerHTML+="<a style='text-decoration:none' href='"+ur+"'><div style='line-height: 1px;height: 50px; width: 1600px; border: 1px solid rgb(121, 173, 245);background-color: floralwhite;'>" +
-                "<p>&emsp;</p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;G0000&emsp;&emsp;&emsp;&emsp;北京-上海&emsp;&emsp;&emsp;&emsp;7:03-9:30&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座</div></a>"
+                "<p>&emsp;</p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;G0000&emsp;&emsp;&emsp;&emsp;"+document.getElementById("bef3").value+"-"+document.getElementById("bef4").value+"&emsp;&emsp;&emsp;&emsp;"+result.stat[ii]+"-"+result.endt[ii]+"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"+result.fir[ii]+"&emsp;&emsp;&emsp;"+result.yi[ii]+"&emsp;&emsp;&emsp;"+result.er[ii]+"&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座</div></a>"
+            
             }
-      //  }
+                    
+                },
+                error: function(){
+                    console.log('fail to send');
+                }
+            });
+    }
     </script>
     <script>
         function in1(){
