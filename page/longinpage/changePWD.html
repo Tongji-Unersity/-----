@@ -11,23 +11,36 @@
        
     
 </head>
+<script>
+    function createCode() {
+        code = "";
+        var codeLength = 4;//验证码的长度  
+        var checkCode = document.getElementById("code");
+        var random = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+            'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');//随机数  
+        for (var i = 0; i < codeLength; i++) {//循环操作  
+            var index = Math.floor(Math.random() * 36);//取得随机数的索引（0~35）  
+            code += random[index];//根据索引取得随机数加到code上  
+        }
+        checkCode.value = code;//把code值赋给验证码  
+    }
+</script>
 <body onload='createCode()'>
     <div class="page-container">
         <h1>密码修改</h1>
-        <form>
+        <form onsubmit="return false">
         <input type="text" name="username"  id="username" class="username" placeholder="请输入您的用户名">
         <div class="errors"><span>请输入身份证号或者电话号码!</span></div>
-        <input type="password" name="password" id="password" class="password" placeholder="请输入重置密码(6-20位字母、数字或符号)">
-        <div class="errors1"><span>密码长度不能小于6位!</span></div>
-        <input type="password" id="password1"class="password1" name="password1"placeholder="请再次输入密码">
-        <div class="errors2"><span>密码不一致!</span></div>
+        <input type="Captcha" id="Captcha" class="Captcha" name="Captcha" placeholder="输入验证码">
+            <input type="button" id="code" onclick="createCode()" style="height:40px;width:120px" title='点击更换验证码' />
+            <div class="errors1"><span>验证码输入错误!</span></div>
         <button type="submit" class="submit_button1"  id="button">确认</button>
 
     
         <div class="error"><span>+</span></div>
     </form>
     </div>
-    <script src="/Login/js/jquery.js"></script>
-    <script src="/Login/js/changePWD.js"></script>
+    <script src="../Login/js/jquery.js"></script>
+    <script src="../Login/js/changePWD.js"></script>
 </body>
 </html>
